@@ -45,4 +45,17 @@ describe('CRUD Task Endpoints', () => {
         expect(res.statusCode).toEqual(500); 
         expect(res.body).toHaveProperty('error');
     });
+
+    // Test Read
+    describe('GET /api/tasks', () => {
+        it('should fetch a random task', async () => {
+            const task = new Task({ name: 'Task 1', completed: false });
+            await task.save();
+
+            const res = await request(app).get('/api/tasks');
+            expect(res.statusCode).toEqual(200);
+            expect(res.body.name).toBe('Task 1');
+        });
+
+    });
 });
