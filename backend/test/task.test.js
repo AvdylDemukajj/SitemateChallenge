@@ -57,5 +57,10 @@ describe('CRUD Task Endpoints', () => {
             expect(res.body.name).toBe('Task 1');
         });
 
+        it('should return a message if no tasks are found', async () => {
+            const res = await request(app).get('/api/tasks');
+            expect(res.statusCode).toEqual(200);
+            expect(res.body.message).toBe('No tasks found');
+        });
     });
 });
