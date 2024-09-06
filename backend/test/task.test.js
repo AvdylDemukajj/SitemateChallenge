@@ -88,4 +88,16 @@ describe('CRUD Task Endpoints', () => {
             expect(res.body).toHaveProperty('error');
         });
     });
+
+    // Test Delete
+    describe('DELETE /api/tasks/:id', () => {
+        it('should delete an existing task', async () => {
+            const task = new Task({ name: 'Task to delete', completed: false });
+            await task.save();
+
+            const res = await request(app).delete(`/api/tasks/${task._id}`);
+            expect(res.statusCode).toEqual(204);
+        });
+
+    });
 });
