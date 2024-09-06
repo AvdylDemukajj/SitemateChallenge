@@ -99,5 +99,10 @@ describe('CRUD Task Endpoints', () => {
             expect(res.statusCode).toEqual(204);
         });
 
+        it('should return an error if task does not exist', async () => {
+            const res = await request(app).delete('/api/tasks/60d5ec49c13e4f2a56f96a9a');
+            expect(res.statusCode).toEqual(500); 
+            expect(res.body).toHaveProperty('error');
+        });
     });
 });
