@@ -8,4 +8,10 @@ export const fetchTasks = async () => {
     return response.data;
 };
 
+// Create a new task
+export const createTask = async (task) => {
+    const response = await axios.post(`${API_URL}/tasks`, task);
+    return response.data;
+};
+
 
