@@ -20,3 +20,23 @@ afterEach(async () => {
 afterAll(async () => {
     await mongoose.connection.close();
 });
+
+describe('CRUD Task Endpoints', () => {
+
+    // Test Create
+    describe('POST /api/tasks', () => {
+        it('should create a new task', async () => {
+            const res = await request(app)
+                .post('/api/tasks')
+                .send({
+                    name: 'New Task',
+                    completed: false
+                });
+            expect(res.statusCode).toEqual(201);
+            expect(res.body).toHaveProperty('_id');
+            expect(res.body.name).toBe('New Task');
+        });
+
+    });
+
+});
