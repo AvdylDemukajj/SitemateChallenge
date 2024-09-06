@@ -63,4 +63,21 @@ describe('CRUD Task Endpoints', () => {
             expect(res.body.message).toBe('No tasks found');
         });
     });
+
+ // Test Update
+    describe('PUT /api/tasks/:id', () => {
+        it('should update an existing task', async () => {
+            const task = new Task({ name: 'Old Task', completed: false });
+            await task.save();
+
+            const res = await request(app)
+                .put(`/api/tasks/${task._id}`)
+                .send({ name: 'Updated Task', completed: true });
+
+            expect(res.statusCode).toEqual(200);
+            expect(res.body.name).toBe('Updated Task');
+            expect(res.body.completed).toBe(true);
+        });
+
+    });
 });
