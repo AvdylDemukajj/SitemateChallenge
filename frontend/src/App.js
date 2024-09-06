@@ -3,7 +3,7 @@ import { Container, Typography, Box, createTheme, ThemeProvider } from '@mui/mat
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = process.env.REACT_APP_API_URL;
 
 const fetchTasks = async () => {
     try {

@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
 import { List, ListItem, ListItemText, IconButton, Button, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'; // Butoni i zbrazët
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'; // Shenja e tikut
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'; 
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'; 
+import axios from 'axios';
+
+const API_URL = process.env.REACT_APP_API_URL;
 
 const TaskList = ({ tasks, setTasks, setCurrentTask }) => {
-    // Funksioni që përditëson gjendjen e `completed` vetëm në UI
     const completeTask = (id) => {
         const updatedTasks = tasks.map(task => 
             task._id === id ? { ...task, completed: !task.completed } : task
         );
-        setTasks(updatedTasks); // Përditëso gjendjen e task-ëve në UI
+        setTasks(updatedTasks); 
     };
 
-    const handleDelete = (id) => {
-        const updatedTasks = tasks.filter(task => task._id !== id);
-        setTasks(updatedTasks); // Përditëso listën pas fshirjes
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`${API_URL}/tasks/${id}`);
+            const updatedTasks = tasks.filter(task => task._id !== id);
+            setTasks(updatedTasks);
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        }
     };
 
     return (
@@ -41,12 +48,12 @@ const TaskList = ({ tasks, setTasks, setCurrentTask }) => {
                     />
                     <Box>
                         <IconButton 
-                            onClick={() => completeTask(task._id)} // Përditëso statusin e kompletimit vetëm në UI
+                            onClick={() => completeTask(task._id)} 
                         >
                             {task.completed ? (
-                                <CheckCircleIcon sx={{ color: 'green' }} /> // Shenja e tikut kur është kompletuar
+                                <CheckCircleIcon sx={{ color: 'green' }} /> 
                             ) : (
-                                <RadioButtonUncheckedIcon /> // Rrethi i zbrazët kur nuk është kompletuar
+                                <RadioButtonUncheckedIcon /> 
                             )}
                         </IconButton>
                         <Button variant="contained" color="secondary" onClick={() => setCurrentTask(task)} sx={{ mr: 1 }}>
