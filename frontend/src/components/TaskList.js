@@ -10,8 +10,17 @@ const TaskList = ({ tasks, refreshTasks, setCurrentTask }) => {
     };
 
     return (
-        <>
-        </>
+        <List>
+            {tasks.map((task) => (
+                <ListItem key={task._id} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <ListItemText primary={task.name} secondary={`Completed: ${task.completed}`} />
+                    <Button onClick={() => setCurrentTask(task)}>Edit</Button>
+                    <IconButton edge="end" onClick={() => handleDelete(task._id)}>
+                        <DeleteIcon />
+                    </IconButton>
+                </ListItem>
+            ))}
+        </List>
     );
 };
 
