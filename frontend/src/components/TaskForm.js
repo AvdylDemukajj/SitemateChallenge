@@ -35,6 +35,9 @@ const TaskForm = ({ currentTask, setCurrentTask, refreshTasks }) => {
                 onChange={(e) => setName(e.target.value)}
                 required
             />
+            <Button type="submit" variant="contained" color="primary">
+                {currentTask ? 'Update Task' : 'Create Task'}
+            </Button>
         </Box>
     );
 };
