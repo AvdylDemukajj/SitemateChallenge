@@ -79,5 +79,13 @@ describe('CRUD Task Endpoints', () => {
             expect(res.body.completed).toBe(true);
         });
 
+        it('should return an error if task does not exist', async () => {
+            const res = await request(app)
+                .put('/api/tasks/60d5ec49c13e4f2a56f96a9a')
+                .send({ name: 'Non-existing Task', completed: false });
+
+            expect(res.statusCode).toEqual(500); 
+            expect(res.body).toHaveProperty('error');
+        });
     });
 });
