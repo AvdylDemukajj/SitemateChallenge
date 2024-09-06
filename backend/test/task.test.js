@@ -38,5 +38,11 @@ describe('CRUD Task Endpoints', () => {
         });
 
     });
-
+    it('should return a validation error if required fields are missing', async () => {
+        const res = await request(app)
+            .post('/api/tasks')
+            .send({});
+        expect(res.statusCode).toEqual(500); 
+        expect(res.body).toHaveProperty('error');
+    });
 });
