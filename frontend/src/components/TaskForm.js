@@ -3,36 +3,44 @@ import { TextField, Button, Box } from '@mui/material';
 import { createTask, updateTask } from '../api';
 
 const TaskForm = ({ currentTask, setCurrentTask, refreshTasks }) => {
-    const [name, setName] = useState('');
-    const [completed, setCompleted] = useState(false);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
 
     useEffect(() => {
         if (currentTask) {
-            setName(currentTask.name);
-            setCompleted(currentTask.completed);
+            setTitle(currentTask.title);
+            setDescription(currentTask.description);
         }
     }, [currentTask]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const task = { title, description };
         if (currentTask) {
-            await updateTask(currentTask._id, { name, completed });
+            await updateTask(currentTask._id, task);
             setCurrentTask(null); 
         } else {
-            await createTask({ name, completed });
+            await createTask(task);
         }
         refreshTasks();
-        setName(''); 
-        setCompleted(false);
+        setTitle(''); 
+        setDescription('');
     };
 
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
             <TextField
-                label="Task Name"
+                label="Task Title"
                 variant="outlined"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+            />
+            <TextField
+                label="Task Description"
+                variant="outlined"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 required
             />
             <Button type="submit" variant="contained" color="primary">
