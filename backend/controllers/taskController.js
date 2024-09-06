@@ -26,3 +26,14 @@ exports.getTask = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch tasks' });
     }
 };
+
+exports.updateTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, completed } = req.body;
+        const updatedTask = await Task.findByIdAndUpdate(id, { name, completed }, { new: true });
+        res.json(updatedTask);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update task' });
+    }
+};
