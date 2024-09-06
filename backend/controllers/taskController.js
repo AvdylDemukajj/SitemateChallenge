@@ -37,3 +37,13 @@ exports.updateTask = async (req, res) => {
         res.status(500).json({ error: 'Failed to update task' });
     }
 };
+
+exports.deleteTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Task.findByIdAndDelete(id);
+        res.status(204).end();
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete task' });
+    }
+};
