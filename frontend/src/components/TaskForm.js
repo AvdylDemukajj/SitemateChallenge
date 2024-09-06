@@ -7,13 +7,11 @@ const API_URL = 'http://localhost:3001/api';
 const TaskForm = ({ currentTask, setCurrentTask, refreshTasks }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [completed, setCompleted] = useState(false);
 
     useEffect(() => {
         if (currentTask) {
             setTitle(currentTask.title);
             setDescription(currentTask.description);
-            setCompleted(currentTask.completed);
         }
     }, [currentTask]);
 
@@ -36,25 +34,25 @@ const TaskForm = ({ currentTask, setCurrentTask, refreshTasks }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (currentTask) {
-            await updateTask(currentTask._id, { title, description, completed });
+            await updateTask(currentTask._id, { title, description });
             setCurrentTask(null);
         } else {
-            await createTask({ title, description, completed });
+            await createTask({ title, description });
         }
         refreshTasks();
         setTitle('');
         setDescription('');
-        setCompleted(false);
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2, backgroundColor: 'white  ', p: 2, borderRadius: 2 }}>
             <TextField
                 label="Task Title"
                 variant="outlined"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
+                sx={{ mb: 2 }}
             />
             <TextField
                 label="Description"
@@ -62,8 +60,9 @@ const TaskForm = ({ currentTask, setCurrentTask, refreshTasks }) => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
+                sx={{ mb: 2 }}
             />
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="primary" sx={{ alignSelf: 'flex-start' }}>
                 {currentTask ? 'Update Task' : 'Create Task'}
             </Button>
         </Box>
